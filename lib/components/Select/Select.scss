@@ -1,0 +1,54 @@
+@import 'lib/styles/mixins';
+
+.rcl-form-select {
+    @include resetInput;
+
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M7 1L4 4L1 1' stroke='%2398A2B3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e ");
+    background-repeat: no-repeat;
+    background-size: 0.5em;
+    background-position: right var(--rcl-form-field-padding-horizontal) center;
+    font-size: var(--rcl-form-field-font-size);
+    font-weight: var(--rcl-form-field-font-weight);
+    border: 1px solid var(--rcl-form-border-color);
+    padding: var(--rcl-form-field-padding-vertical) calc(var(--rcl-form-field-padding-horizontal) + 1rem)
+        var(--rcl-form-field-padding-vertical) var(--rcl-form-field-padding-horizontal);
+    border-radius: var(--rcl-form-field-border-radius);
+
+    &:focus {
+        border-color: var(--rcl-form-accent-color);
+    }
+
+    &::placeholder {
+        color: var(--rcl-form-field-placeholder-color);
+    }
+
+    &.valid {
+        border-color: var(--rcl-form-success-color);
+    }
+
+    &.invalid {
+        border-color: var(--rcl-form-error-color);
+    }
+
+    &.disabled {
+        background-color: var(--rcl-form-disabled-color);
+    }
+}
+
+.rcl-form-select-menu {
+    @include formMenuStyles;
+}
+
+.rcl-form-select-menu-item {
+    @include formMenuItemStyles;
+
+    &.active {
+        background-color: var(--rcl-form-menu-item-hover-color);
+        color: var(--rcl-form-accent-color);
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+    }
+}

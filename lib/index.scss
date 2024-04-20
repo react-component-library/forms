@@ -1,0 +1,60 @@
+:root {
+    /*****************************************************************************   
+    * Form 
+    ******************************************************************************/
+    --rcl-form-accent-color: #1570ef;
+    --rcl-form-accent-foreground-color: #fff;
+    --rcl-form-success-color: #198754;
+    --rcl-form-warning-color: #ffc107;
+    --rcl-form-error-color: #dc3545;
+    --rcl-form-border-color: #dee2e6;
+    --rcl-form-disabled-color: #e9ecef;
+
+    /*****************************************************************************   
+    * Input & Select
+    ******************************************************************************/
+    --rcl-form-field-font-weight: 500;
+    --rcl-form-field-placeholder-color: #d0d5dd;
+    --rcl-form-field-font-size: 0.875rem;
+    --rcl-form-field-padding-horizontal: 0.75rem;
+    --rcl-form-field-padding-vertical: 0.375rem;
+    --rcl-form-field-border-radius: 0.375rem;
+
+    /*****************************************************************************   
+    * Select Menu
+    ******************************************************************************/
+    --rcl-form-menu-background-color: #fff;
+    --rcl-form-menu-padding-horizontal: 0;
+    --rcl-form-menu-padding-vertical: 0.5rem;
+    --rcl-form-menu-border-color: #e9ecef;
+    --rcl-form-menu-border-radius: 0.5rem;
+
+    /*****************************************************************************   
+    * Select MenuItem
+    ******************************************************************************/
+    --rcl-form-menu-item-font-size: 0.875rem;
+    --rcl-form-menu-item-font-weight: 500;
+    --rcl-form-menu-item-padding-horizontal: 1rem;
+    --rcl-form-menu-item-padding-vertical: 0.5rem;
+    --rcl-form-menu-item-border-radius: 0;
+    --rcl-form-menu-item-hover-color: #eff8ff;
+
+    /*****************************************************************************   
+    * Checkbox & Radio Input
+    ******************************************************************************/
+    --rcl-form-check-size: 1rem;
+    --rcl-form-check-border-radius: 0.25em;
+
+    /*****************************************************************************   
+    * Switch
+    ******************************************************************************/
+    --rcl-form-switch-size: 1.25rem;
+    --rcl-form-switch-background-color: #e9e9ea;
+
+    /*****************************************************************************   
+    * Label
+    ******************************************************************************/
+    --rcl-form-label-font-size: 0.875rem;
+    --rcl-form-label-font-weight: 0.875rem;
+    --rcl-form-label-color: #98a2b3;
+}

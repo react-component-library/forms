@@ -1,0 +1,31 @@
+@import 'lib/styles/mixins';
+
+.rcl-form-input {
+    @include resetInput;
+
+    font-size: var(--rcl-form-field-font-size);
+    font-weight: var(--rcl-form-field-font-weight);
+    border: 1px solid var(--rcl-form-border-color);
+    padding: var(--rcl-form-field-padding-vertical) var(--rcl-form-field-padding-horizontal);
+    border-radius: var(--rcl-form-field-border-radius);
+
+    &:focus {
+        border-color: var(--rcl-form-accent-color);
+    }
+
+    &::placeholder {
+        color: var(--rcl-form-field-placeholder-color);
+    }
+
+    &.valid {
+        border-color: var(--rcl-form-success-color);
+    }
+
+    &.invalid {
+        border-color: var(--rcl-form-error-color);
+    }
+
+    &.disabled {
+        background-color: var(--rcl-form-disabled-color);
+    }
+}

@@ -1,0 +1,42 @@
+@mixin resetInput {
+    box-sizing: border-box;
+    background-color: transparent;
+    outline: none;
+    width: 100%;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+}
+
+@mixin resetCheckInput {
+    box-sizing: border-box;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    vertical-align: top;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+@mixin formMenuStyles {
+    box-sizing: border-box;
+    background-color: var(--rcl-form-menu-background-color);
+    border: 1px solid var(--rcl-form-menu-border-color);
+    padding: var(--rcl-form-menu-padding-vertical) var(--rcl-form-menu-padding-horizontal);
+    border-radius: var(--rcl-form-menu-border-radius);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+@mixin formMenuItemStyles {
+    box-sizing: border-box;
+    font-size: var(--rcl-form-menu-item-font-size);
+    font-weight: var(--rcl-form-menu-item-font-weight);
+    padding: var(--rcl-form-menu-item-padding-vertical) var(--rcl-form-menu-item-padding-horizontal);
+    border-radius: var(--rcl-form-menu-item-border-radius);
+    cursor: pointer;
+
+    &:not(.disabled):not(.active):hover {
+        background-color: var(--rcl-form-menu-item-hover-color);
+    }
+}

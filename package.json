@@ -1,0 +1,77 @@
+{
+  "name": "@react-component-library/forms",
+  "description": "",
+  "author": "Khan Cirhan",
+  "version": "0.0.0",
+  "license": "ISC",
+  "type": "module",
+  "main": "dist/index.ts",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "*.md",
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "forms",
+    "react-forms",
+    "react-input",
+    "react-select",
+    "react-checkbox",
+    "react-radio",
+    "react-switch",
+    "react-component-library",
+    "component"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --p ./tsconfig.build.json && vite build",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/react-component-library/forms.git"
+  },
+  "homepage": "https://github.com/react-component-library/forms",
+  "bugs": {
+    "url": "https://github.com/react-component-library/forms/issues"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.26.10",
+    "@react-component-library/utils": "^0.0.2",
+    "class-variance-authority": "^0.7.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.2",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^20.8.3",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "jsdom": "^24.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.72.0",
+    "typescript": "^5.0.2",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^3.7.3",
+    "vite-plugin-lib-inject-css": "^2.0.1",
+    "vitest": "^1.4.0"
+  }
+}

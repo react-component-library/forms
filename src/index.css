@@ -1,0 +1,11 @@
+.text-purple {
+    color: purple;
+}
+
+.text-xl {
+    font-size: 1.5rem;
+}
+
+.main {
+    min-height: 120vh;
+}

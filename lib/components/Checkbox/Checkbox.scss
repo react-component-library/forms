@@ -1,0 +1,87 @@
+@import 'lib/styles/mixins';
+
+.rcl-form-checkox {
+    @include resetCheckInput;
+
+    background-color: transparent;
+    background-position: center;
+    width: 1em;
+    height: 1em;
+    font-size: var(--rcl-form-check-size);
+    border: 1px solid var(--rcl-form-border-color);
+    border-radius: var(--rcl-form-check-border-radius);
+
+    &.disabled {
+        background-color: var(--rcl-form-disabled-color);
+    }
+
+    &:checked {
+        background-image: url("data:image/svg+xml,%3Csvg width='6' height='3' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L4 8L11 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .accent {
+        &:checked {
+            background-color: var(--rcl-form-accent-color);
+            border-color: var(--rcl-form-accent-color);
+        }
+
+        &:focus {
+            border-color: var(--rcl-form-accent-color);
+        }
+    }
+
+    &.accent {
+        &:checked {
+            background-color: var(--rcl-form-accent-color);
+            border-color: var(--rcl-form-accent-color);
+        }
+
+        &:focus {
+            border-color: var(--rcl-form-accent-color);
+        }
+    }
+
+    &.success {
+        &:checked {
+            background-color: var(--rcl-form-success-color);
+            border-color: var(--rcl-form-success-color);
+        }
+
+        &:focus {
+            border-color: var(--rcl-form-success-color);
+        }
+    }
+
+    &.warning {
+        &:checked {
+            background-color: var(--rcl-form-warning-color);
+            border-color: var(--rcl-form-warning-color);
+        }
+
+        &:focus {
+            border-color: var(--rcl-form-warning-color);
+        }
+    }
+
+    &.error {
+        &:checked {
+            background-color: var(--rcl-form-error-color);
+            border-color: var(--rcl-form-error-color);
+        }
+
+        &:focus {
+            border-color: var(--rcl-form-error-color);
+        }
+    }
+
+    &.inherit {
+        &:checked {
+            background-color: currentColor;
+            border-color: currentColor;
+        }
+
+        &:focus {
+            border-color: currentColor;
+        }
+    }
+}
