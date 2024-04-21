@@ -1,16 +1,20 @@
 import { VariantProps, cva } from 'class-variance-authority';
 import {
+    Children,
     ComponentPropsWithoutRef,
     ComponentPropsWithRef,
     ForwardedRef,
     forwardRef,
     ReactNode,
     useCallback,
+    useEffect,
     useImperativeHandle,
+    useMemo,
 } from 'react';
 import { SelectOption, UseFloatingSelectProps } from '../../helpers/types';
 import useFloatingSelect from '../../hooks/useFloatingSelect';
 import './Select.scss';
+import { FloatingFocusManager } from '@floating-ui/react';
 
 const selectVariants = cva(['rcl-form-select'], {
     variants: {
@@ -38,8 +42,10 @@ interface MenuProps extends ComponentPropsWithoutRef<'div'>, UseFloatingSelectPr
 
 interface MenuItemProps extends ComponentPropsWithoutRef<'div'> {}
 
-interface SelectProps extends Omit<ComponentPropsWithRef<'select'>, 'disabled'>, VariantProps<typeof selectVariants> {
-    options: SelectOption[];
+interface SelectProps
+    extends Omit<ComponentPropsWithRef<'select'>, 'children' | 'disabled'>,
+        VariantProps<typeof selectVariants> {
+    options?: SelectOption[];
     menuProps?: MenuProps;
     menuItemProps?: MenuItemProps;
     renderOption?: (option: SelectOption) => ReactNode;
@@ -58,31 +64,43 @@ const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectEleme
         ...rest
     } = props;
 
-    const { context, refs, getReferenceProps, getFloatingProps } = useFloatingSelect({
-        open: menuProps.open,
-        setOpen: menuProps.setOpen,
-        offset: menuProps.offset,
-        closeOnScroll: menuProps.closeOnScroll,
+    const { open, setOpen, offset, closeOnScroll, ...menuRest } = menuProps;
+
+    const {
+        context,
+        refs,
+        optionsRef,
+        labelsRef,
+        getReferenceProps,
+        getFloatingProps,
+        getItemProps,
+        activeIndex,
+        selectedIndexRef,
+    } = useFloatingSelect({
+        open: open,
+        setOpen: setOpen,
+        offset: offset,
+        closeOnScroll: closeOnScroll,
     });
 
-    useImperativeHandle(ref, () => refs.domReference.current as HTMLSelectElement, [refs.domReference]);
+    useImperativeHandle(ref, () => refs.domReference.current, [refs.domReference]);
 
     const handleOptionClick = useCallback(
         (value: SelectOption['value']) => {
             const selectElement = refs.domReference.current;
 
-            selectElement!.focus();
+            selectElement.focus();
 
             // Get option index
             const index = options.findIndex((opt) => opt.value === value);
 
-            if (selectElement!.selectedIndex !== index) {
+            if (selectElement.selectedIndex !== index) {
                 // Update the <select> element's value
-                selectElement!.selectedIndex = index;
+                selectElement.selectedIndex = index;
 
                 // Trigger a change event on the <select> element
                 const event = new Event('change', { bubbles: true });
-                selectElement!.dispatchEvent(event);
+                selectElement.dispatchEvent(event);
             }
 
             context.onOpenChange(false);
@@ -107,31 +125,64 @@ const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectEleme
             </select>
 
             {context.open && (
-                <div
-                    {...menuProps}
-                    {...getFloatingProps()}
-                    ref={refs.setFloating}
-                    style={{ ...menuProps.style, ...context.floatingStyles }}
-                    className={['rcl-form-select-menu', menuProps.className].join(' ')}
-                >
-                    {options.map((option, i) => (
-                        <div
-                            {...menuItemProps}
-                            key={i}
-                            className={[
-                                'rcl-form-select-menu-item',
-                                option.disabled ? 'disabled' : '',
-                                refs.domReference.current?.value?.toString() === option.value?.toString()
-                                    ? 'active'
-                                    : '',
-                                menuItemProps.className,
-                            ].join(' ')}
-                            onClick={option.disabled ? undefined : () => handleOptionClick(option.value)}
-                        >
-                            {renderOption?.(option) ?? option.value}
-                        </div>
-                    ))}
-                </div>
+                <FloatingFocusManager context={context} modal={false}>
+                    <div
+                        {...menuRest}
+                        {...getFloatingProps()}
+                        ref={refs.setFloating}
+                        style={{ ...menuRest.style, ...context.floatingStyles }}
+                        className={['rcl-form-select-menu', menuRest.className].join(' ')}
+                    >
+                        {options.map((option, i) => {
+                            const isSelected =
+                                refs.domReference.current?.value?.toString() === option.value?.toString();
+
+                            if (isSelected) {
+                                selectedIndexRef.current = i;
+                            }
+
+                            const isActive = activeIndex === i;
+
+                            return (
+                                <div
+                                    {...menuItemProps}
+                                    {...getItemProps({
+                                        onClick() {
+                                            if (option.disabled) return;
+
+                                            handleOptionClick(option.value);
+                                        },
+                                        onKeyDown(event) {
+                                            if (option.disabled) return;
+
+                                            if (event.key === 'Enter') {
+                                                event.preventDefault();
+                                                handleOptionClick(option.value);
+                                            }
+                                        },
+                                    })}
+                                    key={i}
+                                    className={[
+                                        'rcl-form-select-menu-item',
+                                        isActive ? 'focus' : '',
+                                        isSelected ? 'selected' : '',
+                                        option.disabled ? 'disabled' : '',
+                                        menuItemProps.className,
+                                    ].join(' ')}
+                                    ref={(node) => {
+                                        optionsRef.current[i] = node;
+                                        labelsRef.current[i] = option.label;
+                                    }}
+                                    tabIndex={isActive ? 0 : -1}
+                                    aria-selected={isActive && isSelected}
+                                    role="option"
+                                >
+                                    {renderOption ? renderOption(option) : option.value}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </FloatingFocusManager>
             )}
         </>
     );

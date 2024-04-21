@@ -26,6 +26,7 @@
     border-radius: var(--rcl-form-menu-border-radius);
     overflow-x: hidden;
     overflow-y: auto;
+    outline: none;
 }
 
 @mixin formMenuItemStyles {
@@ -35,8 +36,5 @@
     padding: var(--rcl-form-menu-item-padding-vertical) var(--rcl-form-menu-item-padding-horizontal);
     border-radius: var(--rcl-form-menu-item-border-radius);
     cursor: pointer;
-
-    &:not(.disabled):not(.active):hover {
-        background-color: var(--rcl-form-menu-item-hover-color);
-    }
+    outline: none;
 }

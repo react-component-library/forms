@@ -3,19 +3,25 @@ import {
     flip as floatingUiFlip,
     hide as floatingUiHide,
     offset as floatingUiOffset,
-    shift as floatingUiShift,
     size as floatingUiSize,
     useClick,
     useDismiss,
     useFloating,
     useInteractions,
+    useListNavigation,
+    useRole,
+    useTypeahead,
 } from '@floating-ui/react';
 import { useControlledState } from '@react-component-library/utils/hooks';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UseFloatingSelectProps } from '../helpers/types';
 
 const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
     const { open: controlledOpen, setOpen: controlledSetOpen, offset = 0, closeOnScroll = false } = props;
+
+    const selectedIndexRef = useRef(null);
+
+    const [activeIndex, setActiveIndex] = useState<number>(null);
 
     const [open, setOpen] = useControlledState({
         initialState: false,
@@ -29,7 +35,6 @@ const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
         middleware: [
             floatingUiOffset(offset),
             floatingUiFlip({ padding: 0 }),
-            floatingUiShift({ padding: 0 }),
             floatingUiSize({
                 apply: ({ availableWidth, availableHeight, elements }) => {
                     Object.assign(elements.floating.style, {
@@ -60,13 +65,44 @@ const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
 
     const dismiss = useDismiss(context, { ancestorScroll: closeOnScroll });
 
-    const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
+    const role = useRole(context, { role: 'listbox' });
+
+    const optionsRef = useRef<HTMLDivElement[]>([]);
+    const labelsRef = useRef<string[]>([]);
+
+    const listNavigation = useListNavigation(context, {
+        listRef: optionsRef,
+        activeIndex: activeIndex,
+        onNavigate: setActiveIndex,
+        selectedIndex: selectedIndexRef.current,
+        loop: true,
+    });
+
+    const typeahead = useTypeahead(context, {
+        listRef: labelsRef,
+        activeIndex: activeIndex,
+        selectedIndex: selectedIndexRef.current,
+        onMatch: setActiveIndex,
+    });
+
+    const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
+        listNavigation,
+        typeahead,
+        click,
+        dismiss,
+        role,
+    ]);
 
     return {
         context,
         refs,
+        optionsRef,
+        labelsRef,
         getReferenceProps,
         getFloatingProps,
+        getItemProps,
+        activeIndex,
+        selectedIndexRef,
     };
 };
 

@@ -1,6 +1,28 @@
 import { useState } from 'react';
 import { Input, Checkbox, Radio, Select, Switch, Label } from '../lib';
 
+const names = [
+    'John Smith',
+    'Jane Doe',
+    'Olivia Jones (disabled)',
+    'William Miller',
+    'Emma Garcia',
+    'Noah Hernandez',
+    'Sophia Davis',
+    'Liam Taylor',
+    'Ava Johnson',
+    'Benjamin Brown',
+    'Charlotte Garcia',
+    'Lucas Moore',
+    'Mia Robinson',
+    'Elijah Williams',
+    'Evelyn Wilson (disabled)',
+    'Alexander Thompson',
+    'Isabella Garcia',
+    'Matthew Lopez',
+    'Amelia Hernandez',
+];
+
 function App() {
     const [val, setVal] = useState(34867);
 
@@ -22,20 +44,20 @@ function App() {
                 options={[
                     {
                         label: 'Number 1',
-                        value: 12345,
+                        value: '12345',
                     },
                     {
                         label: 'Number 2',
-                        value: 34567,
+                        value: '34567',
                     },
                     {
                         label: 'Number 3',
-                        value: 16345,
+                        value: '16345',
                         disabled: true,
                     },
                     {
                         label: 'Number 4',
-                        value: 34867,
+                        value: '34867',
                     },
                 ]}
                 onChange={(e) => console.log(e.target.value)}
@@ -50,30 +72,12 @@ function App() {
                         border: '1px solid rgba(231, 232, 242, 1)',
                     },
                     offset: 8,
-                    closeOnScroll: true,
+                    // closeOnScroll: true,
                 }}
                 menuItemProps={{
                     className: 'px-12',
                 }}
-                options={[
-                    {
-                        label: 'Number 1',
-                        value: 12345,
-                    },
-                    {
-                        label: 'Number 2',
-                        value: 34567,
-                    },
-                    {
-                        label: 'Number 3',
-                        value: 16345,
-                        disabled: true,
-                    },
-                    {
-                        label: 'Number 4',
-                        value: 34867,
-                    },
-                ]}
+                options={names.map((r) => ({ label: r, value: r }))}
                 onChange={(e) => console.log(e.target.value)}
             />
             <br />

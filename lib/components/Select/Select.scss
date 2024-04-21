@@ -43,12 +43,20 @@
 .rcl-form-select-menu-item {
     @include formMenuItemStyles;
 
-    &.active {
+    &.selected {
         background-color: var(--rcl-form-menu-item-hover-color);
         color: var(--rcl-form-accent-color);
     }
 
+    &.focus {
+        background-color: var(--rcl-form-menu-item-hover-color);
+    }
+
     &.disabled {
         cursor: not-allowed;
+    }
+
+    &:not(.selected):hover {
+        background-color: var(--rcl-form-menu-item-hover-color);
     }
 }
