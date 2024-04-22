@@ -71,7 +71,7 @@ function App() {
                         boxShadow: '1px 6px 32px 0px rgba(5, 22, 35, 0.06)',
                         border: '1px solid rgba(231, 232, 242, 1)',
                     },
-                    offset: 8,
+                    offset: 4,
                     // closeOnScroll: true,
                 }}
                 menuItemProps={{
@@ -80,6 +80,7 @@ function App() {
                 options={names.map((r) => ({ label: r, value: r }))}
                 onChange={(e) => console.log(e.target.value)}
             />
+
             <br />
             <br />
 
@@ -106,6 +107,11 @@ function App() {
                 value={val}
                 onChange={(e) => setVal(+e.target.value)}
             />
+            <br />
+            <br />
+
+            <Select options={[]} />
+
             <br />
             <br />
 

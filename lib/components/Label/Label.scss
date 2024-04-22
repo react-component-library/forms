@@ -1,8 +1,9 @@
 .rcl-form-label {
     display: inline-block;
     box-sizing: border-box;
+    margin-bottom: 0.375rem;
+
     font-size: var(--rcl-form-label-font-size);
     font-weight: var(--rcl-form-label-font-weight);
     color: var(--rcl-form-label-color);
-    margin-bottom: 0.375rem;
 }

@@ -17,7 +17,7 @@ import { useEffect, useRef, useState } from 'react';
 import { UseFloatingSelectProps } from '../helpers/types';
 
 const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
-    const { open: controlledOpen, setOpen: controlledSetOpen, offset = 0, closeOnScroll = false } = props;
+    const { open: controlledOpen, setOpen: controlledSetOpen, offset = 4, closeOnScroll = false } = props;
 
     const selectedIndexRef = useRef(null);
 
@@ -40,7 +40,7 @@ const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
                     Object.assign(elements.floating.style, {
                         width: `${elements.reference.getBoundingClientRect().width}px`,
                         maxWidth: `${availableWidth}px`,
-                        maxHeight: `${availableHeight}px`,
+                        maxHeight: `${availableHeight - 8}px`,
                     });
                 },
                 padding: 0,
@@ -65,8 +65,6 @@ const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
 
     const dismiss = useDismiss(context, { ancestorScroll: closeOnScroll });
 
-    const role = useRole(context, { role: 'listbox' });
-
     const optionsRef = useRef<HTMLDivElement[]>([]);
     const labelsRef = useRef<string[]>([]);
 
@@ -78,19 +76,18 @@ const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
         loop: true,
     });
 
-    const typeahead = useTypeahead(context, {
-        listRef: labelsRef,
-        activeIndex: activeIndex,
-        selectedIndex: selectedIndexRef.current,
-        onMatch: setActiveIndex,
-    });
+    // const typeahead = useTypeahead(context, {
+    //     listRef: labelsRef,
+    //     activeIndex: activeIndex,
+    //     selectedIndex: selectedIndexRef.current,
+    //     onMatch: setActiveIndex,
+    // });
 
     const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
         listNavigation,
-        typeahead,
+        // typeahead,
         click,
         dismiss,
-        role,
     ]);
 
     return {

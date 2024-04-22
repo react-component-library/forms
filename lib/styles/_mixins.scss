@@ -20,21 +20,32 @@
 
 @mixin formMenuStyles {
     box-sizing: border-box;
-    background-color: var(--rcl-form-menu-background-color);
-    border: 1px solid var(--rcl-form-menu-border-color);
-    padding: var(--rcl-form-menu-padding-vertical) var(--rcl-form-menu-padding-horizontal);
-    border-radius: var(--rcl-form-menu-border-radius);
     overflow-x: hidden;
     overflow-y: auto;
     outline: none;
+
+    background-color: var(--rcl-form-menu-background-color);
+    border: var(--rcl-form-menu-border);
+    border-radius: var(--rcl-form-menu-border-radius);
+    box-shadow: var(--rcl-form-menu-box-shadow);
+
+    &:empty {
+        display: none;
+    }
 }
 
 @mixin formMenuItemStyles {
+    position: relative;
     box-sizing: border-box;
+    width: 100%;
+    outline: none;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+
     font-size: var(--rcl-form-menu-item-font-size);
     font-weight: var(--rcl-form-menu-item-font-weight);
-    padding: var(--rcl-form-menu-item-padding-vertical) var(--rcl-form-menu-item-padding-horizontal);
+    padding: var(--rcl-form-menu-item-padding);
     border-radius: var(--rcl-form-menu-item-border-radius);
-    cursor: pointer;
-    outline: none;
 }
