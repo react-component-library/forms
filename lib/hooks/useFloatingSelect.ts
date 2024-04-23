@@ -9,7 +9,6 @@ import {
     useFloating,
     useInteractions,
     useListNavigation,
-    useRole,
     useTypeahead,
 } from '@floating-ui/react';
 import { useControlledState } from '@react-component-library/utils/hooks';
@@ -17,7 +16,13 @@ import { useEffect, useRef, useState } from 'react';
 import { UseFloatingSelectProps } from '../helpers/types';
 
 const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
-    const { open: controlledOpen, setOpen: controlledSetOpen, offset = 4, closeOnScroll = false } = props;
+    const {
+        open: controlledOpen,
+        setOpen: controlledSetOpen,
+        offset = 4,
+        closeOnScroll = false,
+        isTypeaheadEnabled = true,
+    } = props;
 
     const selectedIndexRef = useRef(null);
 
@@ -73,19 +78,20 @@ const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
         activeIndex: activeIndex,
         onNavigate: setActiveIndex,
         selectedIndex: selectedIndexRef.current,
-        loop: true,
+        loop: isTypeaheadEnabled,
     });
 
-    // const typeahead = useTypeahead(context, {
-    //     listRef: labelsRef,
-    //     activeIndex: activeIndex,
-    //     selectedIndex: selectedIndexRef.current,
-    //     onMatch: setActiveIndex,
-    // });
+    const typeahead = useTypeahead(context, {
+        listRef: labelsRef,
+        activeIndex: activeIndex,
+        selectedIndex: selectedIndexRef.current,
+        onMatch: setActiveIndex,
+        enabled: isTypeaheadEnabled,
+    });
 
     const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
         listNavigation,
-        // typeahead,
+        typeahead,
         click,
         dismiss,
     ]);
@@ -99,6 +105,7 @@ const useFloatingSelect = (props: UseFloatingSelectProps = {}) => {
         getFloatingProps,
         getItemProps,
         activeIndex,
+        setActiveIndex,
         selectedIndexRef,
     };
 };

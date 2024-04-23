@@ -2,7 +2,7 @@
   "name": "@react-component-library/forms",
   "description": "",
   "author": "Khan Cirhan",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "ISC",
   "type": "module",
   "main": "dist/index.ts",

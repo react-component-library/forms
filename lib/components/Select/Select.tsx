@@ -7,14 +7,33 @@ import {
     forwardRef,
     ReactNode,
     useCallback,
+    useEffect,
     useImperativeHandle,
     useMemo,
+    useRef,
     useState,
 } from 'react';
 import { SelectOption, UseFloatingSelectProps } from '../../helpers/types';
 import useFloatingSelect from '../../hooks/useFloatingSelect';
 import './Select.scss';
 
+/**
+ * useSearch
+ */
+const useSearch = () => {
+    const ref = useRef<HTMLInputElement>(null);
+    const [value, setValue] = useState('');
+
+    return {
+        ref: ref,
+        value,
+        setValue,
+    };
+};
+
+/**
+ * selectVariants
+ */
 const selectVariants = cva(['rcl-form-select'], {
     variants: {
         invalid: {
@@ -37,10 +56,15 @@ const selectVariants = cva(['rcl-form-select'], {
     },
 });
 
-interface MenuProps extends ComponentPropsWithoutRef<'div'>, UseFloatingSelectProps {}
+interface MenuProps
+    extends ComponentPropsWithoutRef<'div'>,
+        Pick<UseFloatingSelectProps, 'open' | 'setOpen' | 'offset' | 'closeOnScroll'> {}
 
 interface MenuItemProps extends ComponentPropsWithoutRef<'div'> {}
 
+/**
+ * Select
+ */
 interface SelectProps
     extends Omit<ComponentPropsWithRef<'select'>, 'children' | 'disabled'>,
         VariantProps<typeof selectVariants> {
@@ -48,6 +72,7 @@ interface SelectProps
     menuProps?: MenuProps;
     menuItemProps?: MenuItemProps;
     renderOption?: (option: SelectOption) => ReactNode;
+    showSearch?: boolean;
 }
 
 const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectElement>) => {
@@ -56,6 +81,7 @@ const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectEleme
         menuProps = {},
         menuItemProps = {},
         renderOption,
+        showSearch,
         invalid,
         valid,
         disabled,
@@ -65,7 +91,7 @@ const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectEleme
 
     const { open, setOpen, offset, closeOnScroll, ...menuRest } = menuProps;
 
-    const [search, setSearch] = useState('');
+    const { ref: searchRef, value: search, setValue: setSearch } = useSearch();
 
     const {
         context,
@@ -82,7 +108,14 @@ const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectEleme
         setOpen: setOpen,
         offset: offset,
         closeOnScroll: closeOnScroll,
+        isTypeaheadEnabled: !showSearch,
     });
+
+    useEffect(() => {
+        if (!context.open) {
+            setSearch('');
+        }
+    }, [context.open, setSearch]);
 
     useImperativeHandle(ref, () => refs.domReference.current, [refs.domReference]);
 
@@ -140,14 +173,17 @@ const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectEleme
                         style={{ ...menuRest.style, ...context.floatingStyles }}
                         className={['rcl-form-select-menu', menuRest.className].join(' ')}
                     >
-                        <div className="rcl-form-select-search">
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                        </div>
+                        {showSearch && (
+                            <div className="rcl-form-select-search">
+                                <input
+                                    ref={searchRef}
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                        )}
 
                         <div className="rcl-form-select-menu-list">
                             {filteredOptions.map((option, i) => {
@@ -168,6 +204,10 @@ const Select = forwardRef((props: SelectProps, ref: ForwardedRef<HTMLSelectEleme
                                                 handleOptionClick(option);
                                             },
                                             onKeyDown(event) {
+                                                if (showSearch && event.key === 'ArrowUp' && activeIndex === 0) {
+                                                    searchRef.current.focus();
+                                                }
+
                                                 if (event.key === 'Enter') {
                                                     event.preventDefault();
 

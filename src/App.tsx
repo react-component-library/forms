@@ -79,6 +79,7 @@ function App() {
                 }}
                 options={names.map((r) => ({ label: r, value: r }))}
                 onChange={(e) => console.log(e.target.value)}
+                showSearch
             />
 
             <br />

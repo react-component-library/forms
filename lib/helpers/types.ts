@@ -12,4 +12,5 @@ export interface UseFloatingSelectProps {
     setOpen?: Dispatch<SetStateAction<boolean>>;
     offset?: number;
     closeOnScroll?: boolean;
+    isTypeaheadEnabled?: boolean;
 }
